@@ -9,7 +9,7 @@
 /* global $ */
 import abstractField from "../abstractField";
 import { defaults } from "lodash";
-import dateFieldHelper from "../../utils/dateFieldHelper";
+import dateFieldHelper from "@/utils/dateFieldHelper";
 
 let inputFormat = "YYYY-MM-DD HH:mm:ss";
 
@@ -18,7 +18,8 @@ export default {
 
 	methods: {
 		getDateFormat() {
-			if (this.schema.dateTimePickerOptions && this.schema.dateTimePickerOptions.format) return this.schema.dateTimePickerOptions.format;
+			if (this.schema.dateTimePickerOptions && this.schema.dateTimePickerOptions.format)
+				return this.schema.dateTimePickerOptions.format;
 			else return inputFormat;
 		},
 
@@ -58,5 +59,4 @@ export default {
 
 
 <style lang="scss">
-
 </style>

@@ -5,14 +5,14 @@
 <script>
 import abstractField from "../abstractField";
 import { defaults, get as objGet } from "lodash";
-import dateFieldHelper from "../../utils/dateFieldHelper";
+import dateFieldHelper from "@/utils/dateFieldHelper";
 
 let inputFormat = "YYYY-MM-DD";
 
 export default {
-	mixins: [ abstractField ],
+	mixins: [abstractField],
 	data() {
-		return { 
+		return {
 			picker: null,
 			options: null
 		};
@@ -24,7 +24,7 @@ export default {
 		},
 		...dateFieldHelper,
 		initialize(options) {
-			if(this.picker && this.picker.destroy) {
+			if (this.picker && this.picker.destroy) {
 				// if an existing picker is already set, destroy it first
 				this.picker.destroy();
 			}
@@ -40,7 +40,9 @@ export default {
 					});
 					this.picker = new window.Pikaday(this.options);
 				} else {
-					console.warn("Pikaday is missing. Please download from https://github.com/dbushell/Pikaday/ and load the script and CSS in the HTML head section!");
+					console.warn(
+						"Pikaday is missing. Please download from https://github.com/dbushell/Pikaday/ and load the script and CSS in the HTML head section!"
+					);
 				}
 			});
 		}
@@ -60,5 +62,4 @@ export default {
 
 
 <style lang="scss">
-
 </style>

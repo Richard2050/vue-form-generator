@@ -21,7 +21,7 @@
 <script>
 import { isObject, isNil, clone } from "lodash";
 import abstractField from "../abstractField";
-import { slugify } from "../../utils/schema";
+import { slugify } from "@/utils/schema";
 
 export default {
 	mixins: [abstractField],
@@ -57,7 +57,10 @@ export default {
 
 		getItemValue(item) {
 			if (isObject(item)) {
-				if (typeof this.schema["checklistOptions"] !== "undefined" && typeof this.schema["checklistOptions"]["value"] !== "undefined") {
+				if (
+					typeof this.schema["checklistOptions"] !== "undefined" &&
+					typeof this.schema["checklistOptions"]["value"] !== "undefined"
+				) {
 					return item[this.schema.checklistOptions.value];
 				} else {
 					if (typeof item["value"] !== "undefined") {
@@ -72,7 +75,10 @@ export default {
 		},
 		getItemName(item) {
 			if (isObject(item)) {
-				if (typeof this.schema["checklistOptions"] !== "undefined" && typeof this.schema["checklistOptions"]["name"] !== "undefined") {
+				if (
+					typeof this.schema["checklistOptions"] !== "undefined" &&
+					typeof this.schema["checklistOptions"]["name"] !== "undefined"
+				) {
 					return item[this.schema.checklistOptions.name];
 				} else {
 					if (typeof item["name"] !== "undefined") {

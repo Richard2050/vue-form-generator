@@ -2,7 +2,7 @@ const forEach = require("lodash").forEach;
 
 let fieldComponents = {};
 
-let coreFields = require.context("../fields/core", false, /^\.\/field([\w-_]+)\.vue$/);
+let coreFields = require.context("../components/fields/core", false, /^\.\/field([\w-_]+)\.vue$/);
 
 forEach(coreFields.keys(), (key) => {
 	let compName = key.replace(/^\.\//, "").replace(/\.vue/, "");
@@ -10,7 +10,7 @@ forEach(coreFields.keys(), (key) => {
 });
 
 if (process.env.FULL_BUNDLE) {
-	let optionalFields = require.context("../fields/optional", false, /^\.\/field([\w-_]+)\.vue$/);
+	let optionalFields = require.context("../components/fields/optional", false, /^\.\/field([\w-_]+)\.vue$/);
 
 	forEach(optionalFields.keys(), (key) => {
 		let compName = key.replace(/^\.\//, "").replace(/\.vue/, "");
