@@ -75,7 +75,7 @@ module.exports = [
 			}),
 			new LodashModuleReplacementPlugin({
 				collections: true,
-				paths: true,
+				paths: true
 			}),
 			new webpack.optimize.UglifyJsPlugin({
 				compress: {
