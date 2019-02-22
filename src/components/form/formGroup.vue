@@ -118,9 +118,7 @@ export default {
 
 			return field.hint;
 		},
-		fieldErrors(field) {
-			return this.errors.filter((e) => e.field === field).map((item) => item.error);
-		},
+
 		onModelUpdated(newVal, schema) {
 			this.$emit("model-updated", newVal, schema);
 		},

@@ -15,7 +15,7 @@ export default {
 			};
 
 			if (isArray(field.styleClasses)) {
-				forEach(field.styleClasses, c => (baseClasses[c] = true));
+				forEach(field.styleClasses, (c) => (baseClasses[c] = true));
 			} else if (isString(field.styleClasses)) {
 				baseClasses[field.styleClasses] = true;
 			}
@@ -27,8 +27,7 @@ export default {
 			return baseClasses;
 		},
 		fieldErrors(field) {
-			let res = this.errors.filter(e => e.field === field);
-			return res.map(item => item.error);
+			return this.errors.filter((e) => e.field === field).map((item) => item.error);
 		},
 		// Get disabled attr of field
 		fieldDisabled(field) {
