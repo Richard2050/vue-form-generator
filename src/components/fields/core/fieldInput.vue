@@ -37,7 +37,7 @@
 		:width="schema.width",
 		:files="schema.files"
 		v-attributes="'input'")
-	span.helper(v-if="schema.inputType.toLowerCase() === 'color' || schema.inputType.toLowerCase() === 'range'") {{ value }}
+	span.helper(v-if="inputType === 'color' || inputType === 'range'") {{ value }}
 </template>
 
 <script>
@@ -55,18 +55,18 @@ export default {
 	mixins: [abstractField],
 	computed: {
 		inputType() {
-			if(this.schema && this.schema.inputType === "datetime") {
+			if (this.schema && this.schema.inputType === "datetime") {
 				// convert "datetime" to "datetime-local" (datetime deprecated in favor of "datetime-local")
 				// ref: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime
 				return "datetime-local";
 			}
-			return this.schema.inputType;
+			return this.schema.inputType.toLowerCase();
 		}
 	},
 	methods: {
 		formatValueToModel(value) {
 			if (value != null) {
-				switch (this.schema.inputType.toLowerCase()) {
+				switch (this.inputType) {
 					case "date":
 					case "datetime":
 					case "datetime-local":
@@ -82,7 +82,7 @@ export default {
 			return value;
 		},
 		formatValueToField(value) {
-			switch(this.schema.inputType.toLowerCase()) {
+			switch (this.inputType) {
 				case "date":
 				case "datetime":
 				case "datetime-local":
@@ -91,7 +91,7 @@ export default {
 			return value;
 		},
 		formatDatetimeToModel(newValue, oldValue) {
-			let defaultFormat = DATETIME_FORMATS[this.schema.inputType.toLowerCase()];
+			let defaultFormat = DATETIME_FORMATS[this.inputType];
 			let m = fecha.parse(newValue, defaultFormat);
 			if (m !== false) {
 				if (this.schema.format) {
@@ -103,16 +103,16 @@ export default {
 			this.updateModelValue(newValue, oldValue);
 		},
 		formatDatetimeValueToField(value) {
-			if(value === null || undefined === value) {
+			if (value === null || undefined === value) {
 				return null;
 			}
 
-			let defaultFormat = DATETIME_FORMATS[this.schema.inputType.toLowerCase()];
+			let defaultFormat = DATETIME_FORMATS[this.inputType];
 			let m = value;
-			if(!isNumber(value)) {
+			if (!isNumber(value)) {
 				m = fecha.parse(value, defaultFormat);
 			}
-			if(m !== false) {
+			if (m !== false) {
 				return fecha.format(m, defaultFormat);
 			}
 			return value;
@@ -124,18 +124,25 @@ export default {
 			this.updateModelValue(newValue, oldValue);
 		},
 		onInput($event) {
+			/*eslint no-debugger: 0*/
+			// debugger;
 			let value = $event.target.value;
-			switch (this.schema.inputType.toLowerCase()) {
+			switch (this.inputType) {
 				case "number":
-				case "range":
-					if (isNumber(parseFloat($event.target.value))) {
-						value = parseFloat($event.target.value);
+				case "range": {
+					let parseValue = parseFloat($event.target.value);
+					if (isNumber(parseValue)) {
+						value = parseValue;
 					}
 					break;
+				}
 			}
 			this.value = value;
 		},
 		onBlur() {
+			/*eslint no-debugger: 0*/
+			// debugger;
+
 			if (isFunction(this.debouncedFormatFunc)) {
 				this.debouncedFormatFunc.flush();
 			}
@@ -143,7 +150,7 @@ export default {
 	},
 
 	mounted() {
-		switch (this.schema.inputType.toLowerCase()) {
+		switch (this.inputType) {
 			case "number":
 			case "range":
 				this.debouncedFormatFunc = debounce(
@@ -176,7 +183,7 @@ export default {
 	},
 
 	created() {
-		if (this.schema.inputType.toLowerCase() === "file") {
+		if (this.inputType === "file") {
 			console.warn("The 'file' type in input field is deprecated. Use 'file' field instead.");
 		}
 	}

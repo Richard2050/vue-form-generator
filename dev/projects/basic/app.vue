@@ -1,21 +1,30 @@
 <template>
-	<div class="container">
-		<h1>Basic</h1>
-		<div class="row">
-			<div class="col-sm-12">
-				<vue-form-generator :schema="schema" :model="model" :options="formOptions" ref="form" :is-new-model="isNewModel" @model-updated="modelUpdated" @validated="onValidated"></vue-form-generator>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<pre v-if="model" v-html="prettyModel"></pre>
-			</div>
-		</div>
-	</div>
+  <div class="container">
+    <h1>Basic</h1>
+    <div class="row">
+      <div class="col-sm-12">
+        <vue-form-generator
+          :schema="schema"
+          :model="model"
+          :options="formOptions"
+          ref="form"
+          :is-new-model="isNewModel"
+          @model-updated="modelUpdated"
+          @validated="onValidated"
+        ></vue-form-generator>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <pre v-if="model" v-html="prettyModel"></pre>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import mixinUtils from "../../mixins/utils.js";
+import VueFormGenerator from "../../../src";
 
 export default {
 	mixins: [mixinUtils],
@@ -47,6 +56,20 @@ export default {
 								"data-target": "input"
 							}
 						}
+					},
+					{
+						type: "input",
+						inputType: "text",
+						label: "Name",
+						model: "first_name",
+						readonly: false,
+						featured: true,
+						required: true,
+						disabled: false,
+						max: 10,
+						min: 5,
+						placeholder: "User's name",
+						validator: VueFormGenerator.validators.string
 					},
 					{
 						type: "checkbox",

@@ -72,6 +72,8 @@ export default {
 
 	methods: {
 		validate(calledParent) {
+			/*eslint no-debugger: 0*/
+			debugger;
 			this.clearValidationErrors();
 			let validateAsync = objGet(this.formOptions, "validateAsync", false);
 
@@ -88,6 +90,8 @@ export default {
 				}
 
 				forEach(validators, (validator) => {
+					// /*eslint no-debugger: 0*/
+					// debugger;
 					if (validateAsync) {
 						results.push(validator(this.value, this.schema, this.model));
 					} else {
@@ -95,6 +99,8 @@ export default {
 						if (result && isFunction(result.then)) {
 							result.then((err) => {
 								if (err) {
+									// /*eslint no-debugger: 0*/
+									// debugger;
 									this.errors = this.errors.concat(err);
 								}
 								let isValid = this.errors.length === 0;
@@ -116,6 +122,7 @@ export default {
 						fieldErrors.push(err);
 					}
 				});
+
 				if (isFunction(this.schema.onValidated)) {
 					this.schema.onValidated.call(this, this.model, fieldErrors, this.schema);
 				}
@@ -124,6 +131,8 @@ export default {
 				if (!calledParent) {
 					this.$emit("validated", isValid, fieldErrors, this);
 				}
+				// /*eslint no-debugger: 0*/
+				// debugger;
 				this.errors = fieldErrors;
 				return fieldErrors;
 			};
@@ -184,29 +193,29 @@ export default {
 
 		setModelValueByPath(path, value) {
 			// convert array indexes to properties
-			let s = path.replace(/\[(\w+)\]/g, ".$1");
+			path = path.replace(/\[(\w+)\]/g, ".$1");
 
 			// strip a leading dot
-			s = s.replace(/^\./, "");
+			path = path.replace(/^\./, "");
 
-			let o = this.model;
-			const a = s.split(".");
+			let _model = this.model;
+			const pathParts = path.split(".");
+			const n = pathParts.length;
 			let i = 0;
-			const n = a.length;
 			while (i < n) {
-				let k = a[i];
+				let part = pathParts[i];
 				if (i < n - 1)
-					if (o[k] !== undefined) {
+					if (_model[part] !== undefined) {
 						// Found parent property. Step in
-						o = o[k];
+						_model = _model[part];
 					} else {
 						// Create missing property (new level)
-						this.$root.$set(o, k, {});
-						o = o[k];
+						this.$root.$set(_model, part, {});
+						_model = _model[part];
 					}
 				else {
 					// Set final property value
-					this.$root.$set(o, k, value);
+					this.$root.$set(_model, part, value);
 					return;
 				}
 
